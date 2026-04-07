@@ -43,7 +43,7 @@ void main() {
   vec4 tex = texture2D(uTexture, uv);
   vec4 tex2 = texture2D(uTexture, originalUv);
   float grayScale = dot(vec3(0.298912, 0.586611, 0.114478), tex.rgb);
-// コントラスト強調（値を大きくするほど強調）
+// コントラスト強調（値を大きくするほど強調
 grayScale = clamp((grayScale - 0.1) * 2.0 + 0.5, 0.0, 1.0);
   float shift = floor(grayScale / uAsciiColorStep) * uAsciiColorStep;
   //  shift = 1.0 - shift;
