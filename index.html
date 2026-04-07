@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Shader Demo</title>
+</head>
+<body>
+
+<div class="title-overlay">ASCII Shader — Three.js Demo</div>
+
+<div id="canvas-container"></div>
+
+<div class="ui-overlay">
+  <label>
+    Tile
+    <input type="range" id="tileSize" min="4" max="80" value="32" step="1">
+    <span id="tileSizeVal">32</span>
+  </label>
+  <label>
+    Strength
+    <input type="range" id="tileStrength" min="0.5" max="2.0" value="1.0" step="0.05">
+    <span id="tileStrengthVal">1.00</span>
+  </label>
+  <button class="toggle-btn" id="bioToggle">BIO MODE</button>
+  <button class="toggle-btn" id="imgToggle">Next Image</button>
+  <button class="toggle-btn" id="videoToggle">Video</button>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
