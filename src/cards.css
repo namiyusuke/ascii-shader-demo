@@ -1,0 +1,113 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0a0a0a;
+  color: #f5f2ec;
+  font-family: "Courier New", monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* WebGLキャンバスは全画面固定でカードの背後に重ねる */
+#gl-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-title {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 64px 24px 8px;
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.page-sub {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  opacity: 0.4;
+  margin-bottom: 40px;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px 96px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 860px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* 各カード: 中身は透明で、シェーダーがこの矩形を追従して描画する */
+.card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.5s ease;
+  will-change: transform;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* カード下部のラベル */
+.card__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 18px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+  pointer-events: none;
+}
+
+.card__index {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  opacity: 0.6;
+}
+
+.card__title {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  font-weight: bold;
+}
+
+.card__title small {
+  display: block;
+  font-weight: normal;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  opacity: 0.55;
+  margin-top: 3px;
+}
