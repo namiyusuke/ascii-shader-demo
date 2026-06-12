@@ -90,7 +90,7 @@ const scene = new THREE.Scene()
 const camera = new THREE.Camera()
 
 const geometry = new THREE.PlaneGeometry(1, 1)
-const inkColor = new THREE.Color(0xf5f2ec)
+const inkColor = new THREE.Color(0xffffff)
 
 // フレームレート非依存の指数減衰補間。
 // 「current + (target-current)*0.12」のような固定係数lerpは
@@ -134,7 +134,7 @@ cardData.forEach((data, i) => {
     uAsciiMap: { value: asciiMapTex },
     uAsciiColorStep: { value: asciiColorStep },
     uAspect: { value: 1 },
-    uTileStrength: { value: 1.0 },
+    uTileStrength: { value: 1.2 },
     uTime: { value: 0 },
     uMouse: { value: new THREE.Vector2(0.5, 0.5) }, // (-1,-1)はやめて中央初期化
     uHover: { value: 0 },
@@ -142,7 +142,7 @@ cardData.forEach((data, i) => {
     uBaseTiles: { value: 10.0 },
     uMaxLevel: { value: 7.0 },    // 10は重い&過剰なので7程度が気持ちいい
     uLensRadius: { value: 0.7 },
-    uColorAmount: { value: 0.7 },
+    uColorAmount: { value: 0.25 },
     // ── 追加 uniform(改善版シェーダーが参照) ──
     uVelBoost: { value: 0 },
     uClickPos: { value: new THREE.Vector2(0.5, 0.5) },

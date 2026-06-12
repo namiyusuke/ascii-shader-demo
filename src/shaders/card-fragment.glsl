@@ -55,17 +55,24 @@ void main() {
     level = floor(t * (uMaxLevel + 0.999));
   }
 
-  // ── クリックパルス: クリック点から外へ広がる輪が一時的に解像度を持ち上げる ──
+  // ── クリックパルス: クリック点から外へ広がる輪 ──
+  //   ・波面(pulse)はキラッと光らせる
+  //   ・波が通過した内側はASCIIのまま解像度が上がって絵が出る → やがて元へ戻る
   float pulse = 0.0;
   if (uClickAge >= 0.0) {
     const float PULSE_DUR = 3.0;
-    float ringR = uClickAge * 0.5;                    // 輪の半径が時間で広がる
+    float ringR = uClickAge * 1.5;                    // 輪の半径が時間で広がる
+
+    // すべて粗いセル中心ベースで判定（levelの量子化＝入れ子に合わせる）
     float dC = distance(cCenter * aspect, uClickPos * aspect);
     float ring = exp(-pow((dC - ringR) / 0.06, 2.0)); // ガウシアンの輪
-    float fade = clamp(1.0 - uClickAge / PULSE_DUR, 0.0, 1.0);
-    pulse = ring * fade;
-    // levelは整数に量子化したまま持ち上げる（入れ子が割れない）
-    level = max(level, floor(pulse * (uMaxLevel + 0.999)));
+    // 寿命: 後半でゆっくり減衰し、最後にASCIIへ戻る
+    float life = 1.0 - smoothstep(PULSE_DUR * 0.55, PULSE_DUR, uClickAge);
+    pulse = ring * life;
+
+    // 波が通過した内側をASCIIのまま高解像度化（整数量子化で入れ子維持）
+    float inside = smoothstep(ringR, ringR - 0.12, dC); // 波面の内側=1
+    level = max(level, floor(inside * life * (uMaxLevel + 0.999)));
   }
 
   // 2のべき乗で再分割するので粗いグリッドに完全に入れ子になる（境界が割れない）
@@ -95,9 +102,10 @@ void main() {
 
   // ── 階調を復活させる: 元画像の色と明るさで文字を着色 ──
   // 暗部は暗く・明部は明るく → 文字のままでも何の絵か読み取れる
-  float tone = pow(clamp(g * 1.15, 0.0, 1.0), 0.85);
-  vec3 baseInk = mix(uInkColor, texc, uColorAmount);   // 元色で着色
-  vec3 ink = baseInk * (0.22 + 1.05 * tone);
+  float tone = pow(clamp(g * 1.15, 0.0, 1.0), 0.6);
+  vec3 col = mix(vec3(luma(texc)), texc, 2.4); // 彩度1.4倍
+  vec3 baseInk = mix(uInkColor, col, uColorAmount);   // 元色で着色
+  vec3 ink = baseInk * (0.18 + 1.35 * tone);
 
   // 細かいタイル（レンズ中心）ほどわずかに際立たせる
   float lift = level / max(uMaxLevel, 1.0);
