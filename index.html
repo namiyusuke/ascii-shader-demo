@@ -7,11 +7,11 @@
 </head>
 <body>
 
-<div class="title-overlay">ASCII Shader — Three.js Demo</div>
+<div class="title-overlay"></div>
 
-<div id="canvas-container"></div>
-
-<div class="ui-overlay">
+<!-- <div id="canvas-container"></div> -->
+ <div class="grid" id="grid"></div>
+<!-- <div class="ui-overlay">
   <label>
     Tile
     <input type="range" id="tileSize" min="4" max="80" value="32" step="1">
@@ -25,8 +25,9 @@
   <button class="toggle-btn" id="bioToggle">BIO MODE</button>
   <button class="toggle-btn" id="imgToggle">Next Image</button>
   <button class="toggle-btn" id="videoToggle">Video</button>
-</div>
-
-<script type="module" src="./src/main.js"></script>
+</div> -->
+ <canvas id="gl-canvas"></canvas>
+  <script type="module" src="./src/cards.js"></script>
+<!-- <script type="module" src="./src/main.js"></script> -->
 </body>
 </html>
